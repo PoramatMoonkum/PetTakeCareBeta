@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "803956275515",
+    "project_id": "pettakecareremake",
+    "storage_bucket": "pettakecareremake.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:803956275515:android:994d17e0c51bd8e9efdf1e",
+        "android_client_info": {
+          "package_name": "com.example.pettakecare"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEyxT2TTPKsfvilWSaSxDUK6BmSRyP7BE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
