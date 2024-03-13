@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pettakecare/common/color_extension.dart';
+import 'package:pettakecare/view/login/login_view.dart';
 
 class MoreView extends StatefulWidget {
   const MoreView({super.key});
@@ -40,7 +41,12 @@ class _MoreViewState extends State<MoreView> {
       "image": "assets/img/more_info.png",
       "base": 0
     },
-
+    {
+      "index": "6",
+      "name": "Log out",
+      "image": "assets/img/more_info.png",
+      "base": 0
+    },
   ];
 
   @override
@@ -124,8 +130,11 @@ class _MoreViewState extends State<MoreView> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => Container()));
-                          
-
+                          case "6":
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const LoginView()));
                           default:
                         }
                       },

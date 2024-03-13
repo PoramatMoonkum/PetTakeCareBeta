@@ -51,6 +51,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
     var media = MediaQuery.of(context).size;
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Stack(
         alignment: Alignment.center,
         children: [

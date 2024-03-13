@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:pettakecare/common/color_extension.dart';
 import 'package:pettakecare/common_widget/round_button.dart';
 import 'package:pettakecare/common_widget/round_icon_button.dart';
@@ -32,6 +34,40 @@ class _LoginViewState extends State<LoginView> {
       print('Error: $e');
       // Handle login error here
     }
+  }
+
+  // Link Get start: https://firebase.flutter.dev/docs/auth/social
+
+  Future<UserCredential> signInWithGoogle() async {
+    // Trigger the authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    // Once signed in, return the UserCredential
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
+
+  Future<UserCredential> signInWithFacebook() async {
+    // Trigger the sign-in flow
+    final LoginResult loginResult = await FacebookAuth.instance.login(
+      permissions: ['email', 'public_profile'], // Change permissions facebook developer
+    );
+
+    // Create a credential from the access token
+    final OAuthCredential facebookAuthCredential =
+        FacebookAuthProvider.credential(loginResult.accessToken!.token);
+
+    // Once signed in, return the UserCredential
+    return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
   }
 
   @override
@@ -109,13 +145,11 @@ class _LoginViewState extends State<LoginView> {
                 height: 4,
               ),
               TextButton(
-                onPressed: () async {
-                  await loginUser(txtEmail.text, txtPassword.text);
-                  Navigator.pushReplacement(
+                onPressed: () {
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>
-                          OnBoardingView(), // แทน HomeScreen ด้วยหน้าที่เหมาะสม
+                      builder: (context) => ResetPasswordView(),
                     ),
                   );
                 },
@@ -144,7 +178,10 @@ class _LoginViewState extends State<LoginView> {
                 icon: "assets/img/facebook_logo.png",
                 title: "Login with Facebook",
                 color: const Color(0xff367FC0),
-                onPressed: () {},
+                onPressed: () async {
+                  UserCredential resultAccount = await signInWithFacebook();
+                  print('Result Account: ${resultAccount.user ?? 'unsuccessful'}');
+                },
               ),
               const SizedBox(
                 height: 25,
@@ -153,7 +190,10 @@ class _LoginViewState extends State<LoginView> {
                 icon: "assets/img/google_logo.png",
                 title: "Login with Google",
                 color: const Color(0xffDD4B39),
-                onPressed: () {},
+                onPressed: () async {
+                  UserCredential resultAccount = await signInWithGoogle();
+                  print('Result Account: ${resultAccount.user ?? 'unsuccessful'}');
+                },
               ),
               const SizedBox(
                 height: 80,

@@ -21,7 +21,7 @@ class _StarupViewState extends State<StartupView> {
       welcomePage();
   }
   void welcomePage(){
-      Navigator.push(
+      Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => const WelcomeView()));
     }
   
