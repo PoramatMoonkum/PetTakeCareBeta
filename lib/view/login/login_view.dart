@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print, use_build_context_synchronously
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -58,9 +60,7 @@ class _LoginViewState extends State<LoginView> {
 
   Future<UserCredential> signInWithFacebook() async {
     // Trigger the sign-in flow
-    final LoginResult loginResult = await FacebookAuth.instance.login(
-      permissions: ['email', 'public_profile'], // Change permissions facebook developer
-    );
+    final LoginResult loginResult = await FacebookAuth.instance.login();
 
     // Create a credential from the access token
     final OAuthCredential facebookAuthCredential =
@@ -149,7 +149,7 @@ class _LoginViewState extends State<LoginView> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ResetPasswordView(),
+                      builder: (context) => const ResetPasswordView(),
                     ),
                   );
                 },
@@ -180,7 +180,15 @@ class _LoginViewState extends State<LoginView> {
                 color: const Color(0xff367FC0),
                 onPressed: () async {
                   UserCredential resultAccount = await signInWithFacebook();
-                  print('Result Account: ${resultAccount.user ?? 'unsuccessful'}');
+                  if (resultAccount.user != null) {
+                    print('Result Account: ${resultAccount.user}');
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const OnBoardingView(),
+                      ),
+                    );
+                  }
                 },
               ),
               const SizedBox(
@@ -192,7 +200,15 @@ class _LoginViewState extends State<LoginView> {
                 color: const Color(0xffDD4B39),
                 onPressed: () async {
                   UserCredential resultAccount = await signInWithGoogle();
-                  print('Result Account: ${resultAccount.user ?? 'unsuccessful'}');
+                  if (resultAccount.user != null) {
+                    print('Result Account: ${resultAccount.user}');
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const OnBoardingView(),
+                      ),
+                    );
+                  }
                 },
               ),
               const SizedBox(

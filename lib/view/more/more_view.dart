@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:pettakecare/common/color_extension.dart';
 import 'package:pettakecare/view/login/login_view.dart';
 
@@ -48,6 +50,11 @@ class _MoreViewState extends State<MoreView> {
       "base": 0
     },
   ];
+
+  Future<void> _signOut() async {
+    await FirebaseAuth.instance.signOut();
+    await GoogleSignIn().signOut();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,37 +111,37 @@ class _MoreViewState extends State<MoreView> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        Container()));
-
+                                    builder: (context) => Container()));
                             break;
-
                           case "2":
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => Container()));
+                            break;
                           case "3":
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        Container()));
+                                    builder: (context) => Container()));
+                            break;
                           case "4":
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => Container ()));
+                                    builder: (context) => Container()));
+                            break;
                           case "5":
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => Container()));
+                            break;
                           case "6":
-                            Navigator.push(
+                            _signOut().then((value) => Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const LoginView()));
+                                    builder: (context) => const LoginView())));
                           default:
                         }
                       },
